@@ -1,0 +1,13 @@
+//////////////////////////RUNGE-KUTTA4/////////////////////////////
+int RK4(void);
+
+//////////////////////SIMULATION OF DYNAMIC OF THE STAR//////////////////////
+int RK4_integration(void);
+
+///////////////////SYMPLECTIC INTEGRATOR//////////////////
+int symplectic_integration(void);
+
+////////THE BOSS OF INTEGRATOR AND EXIT DATES//////////
+int emulator(void);
+
+
