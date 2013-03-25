@@ -1,5 +1,5 @@
 # PREDEFINED VARIABLES
-CFLAGS = -c -O3 -Wall -I. -Wno-unused
+CFLAGS = -O3 -Wall -I. -Wno-unused -fopenmp
 LFLAGS = -lm
 CC = gcc
 
@@ -17,16 +17,16 @@ PROGRAM = simulacion
 
 # LINKING
 $(PROGRAM).out: $(PROGRAM).o $(MODULESO)
-	$(CC) $^ -o $@ $(LFLAGS)
+	$(CC) $^ -o $@ $(LFLAGS) $(CFLAGS)
 	rm -rf $(MODULESO) $(PROGRAM).o
 
 # MODULES' RULES
 $(MODULES): $(MODULESC) $(MODULESH)
-	$(CC) $(CFLAGS) $@.c -o $@.o
+	$(CC) $(CFLAGS) $@.c
 
 # PROGRAM COMPILATION
-$(PROGRAM).o: $(PROGRAM).c $(MODULESH)
-	$(CC) $(CFLAGS) $< -o $@
+$(PROGRAM).o: $(PROGRAM).c
+	$(CC) -c $(CFLAGS) $<
 
 run:
 	./$(PROGRAM).out $(INITFILE) $(INPUTFILE) $(OUTPUTFILE) 

@@ -36,6 +36,7 @@ Up to date: 27 Feb 2012
 #include <time.h>
 #include <math.h>
 #include <string.h>
+#include <omp.h>
 
 #define MAXDIM 3
 

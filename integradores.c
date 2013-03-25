@@ -154,24 +154,32 @@ int symplectic_integration(void)
   int i,j;
   double acele[3];
 
-  for(j=0;j<Num_par;j++){
-    for(i=0;i<MAXDIM;i++){
-      par[j].pos[i] = par[j].pos[i] + 0.5*t*par[j].vel[i];
+#pragma omp parallel
+  {
+
+#pragma omp for private(j)
+    for(j=0;j<Num_par;j++){
+      for(i=0;i<MAXDIM;i++){
+	par[j].pos[i] = par[j].pos[i] + 0.5*t*par[j].vel[i];
+      }
     }
-  }
   
-  for(j=0;j<Num_par;j++){
-    aceleration(j,acele);
+#pragma omp for private(j,acele)
+    for(j=0;j<Num_par;j++){
+      aceleration(j,acele);
       
-    for(i=0;i<MAXDIM;i++){
-      par[j].vel[i] = par[j].vel[i] + t*acele[i];
+      for(i=0;i<MAXDIM;i++){
+	par[j].vel[i] = par[j].vel[i] + t*acele[i];
+      }
     }
-  }
-	
-  for(j=0;j<Num_par;j++){
-    for(i=0;i<MAXDIM;i++){
-      par[j].pos[i]=  par[j].pos[i] + 0.5*t*par[j].vel[i];
+
+#pragma omp for private(j)
+    for(j=0;j<Num_par;j++){
+      for(i=0;i<MAXDIM;i++){
+	par[j].pos[i]=  par[j].pos[i] + 0.5*t*par[j].vel[i];
+      }
     }
+
   }
   
   return 0;
